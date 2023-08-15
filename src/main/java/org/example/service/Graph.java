@@ -3,10 +3,7 @@ package org.example.service;
 import lombok.Getter;
 import org.example.model.Node;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 public class Graph {
@@ -19,7 +16,7 @@ public class Graph {
     private final Node eight = new Node("Dont be a fucking pussy!");
     private final Map<Node, List<Node>> graph;
 
-    public Graph(){
+    public Graph() {
         this.graph = Map.of(
                 five, List.of(three, seven),
                 three, List.of(two, four),
@@ -29,12 +26,25 @@ public class Graph {
                 eight, new ArrayList<>());
     }
 
-    public void dfs(Map<Node, List<Node>> graph, Set<Node> visited, Node node){
+    public void dfs(Map<Node, List<Node>> graph, Set<Node> visited, Node node) {
         if (!visited.contains(node)) {
             System.out.println(node.getMessage());
             visited.add(node);
             for (Node elem : graph.get(node)) {
                 dfs(graph, visited, elem);
+            }
+        }
+    }
+
+    public void bfs(Map<Node, List<Node>> graph, Set<Node> visited, Node node) {
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            Node n = queue.poll();
+            System.out.println(n);
+            for (Node elem : graph.get(n)) {
+                visited.add(elem);
+                queue.offer(elem);
             }
         }
     }
